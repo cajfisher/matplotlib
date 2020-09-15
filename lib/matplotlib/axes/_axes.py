@@ -81,7 +81,7 @@ class Axes(_AxesBase):
     Attributes
     ----------
     dataLim : `.Bbox`
-        The bounding box enclosing all data displayed in the Axes.
+        The bounding box enclosing all data displayed within the axes.
     viewLim : `.Bbox`
         The view limits in data coordinates.
 
@@ -90,10 +90,10 @@ class Axes(_AxesBase):
 
     def get_title(self, loc="center"):
         """
-        Get an axes title.
+        Get an axis title.
 
-        Get one of the three available axes titles. The available titles
-        are positioned above the axes in the center, flush with the left
+        Get one of the three available axis titles. The available titles
+        are positioned above the axis in the center, flush with the left
         edge, and flush with the right edge.
 
         Parameters
@@ -116,10 +116,10 @@ class Axes(_AxesBase):
     def set_title(self, label, fontdict=None, loc=None, pad=None, *, y=None,
                   **kwargs):
         """
-        Set a title for the axes.
+        Set a title for the axis.
 
-        Set one of the three available axes titles. The available titles
-        are positioned above the axes in the center, flush with the left
+        Set one of the three available axis titles. The available titles
+        are positioned above the axis in the center, flush with the left
         edge, and flush with the right edge.
 
         Parameters
@@ -141,12 +141,12 @@ class Axes(_AxesBase):
             Which title to set.
 
         y : float, default: :rc:`axes.titley`
-            Vertical axes loation for the title (1.0 is the top).  If
+            Vertical axis location for the title (1.0 is the top).  If
             None (the default), y is determined automatically to avoid
-            decorators on the axes.
+            decorators on the axis.
 
         pad : float, default: :rc:`axes.titlepad`
-            The offset of the title from the top of the axes, in points.
+            The offset of the title from the top of the axis, in points.
 
         Returns
         -------
@@ -209,7 +209,7 @@ class Axes(_AxesBase):
     @docstring.dedent_interpd
     def legend(self, *args, **kwargs):
         """
-        Place a legend on the axes.
+        Place a legend on the axis.
 
         Call signatures::
 
@@ -222,7 +222,7 @@ class Axes(_AxesBase):
 
         **1. Automatic detection of elements to be shown in the legend**
 
-        The elements to be added to the legend are automatically determined,
+        The elements to be added to the legend are automatically determined
         when you do not pass in any extra arguments.
 
         In this case, the labels are taken from the artist. You can specify
@@ -247,7 +247,7 @@ class Axes(_AxesBase):
 
         **2. Labeling existing plot elements**
 
-        To make a legend for lines which already exist on the axes
+        To make a legend for lines which already exist on the axis
         (via plot for instance), simply call this function with an iterable
         of strings, one for each legend item. For example::
 
@@ -320,7 +320,7 @@ class Axes(_AxesBase):
 
     def inset_axes(self, bounds, *, transform=None, zorder=5, **kwargs):
         """
-        Add a child inset axes to this existing axes.
+        Add a child inset axis to the existing axis.
 
         Warnings
         --------
@@ -329,16 +329,16 @@ class Axes(_AxesBase):
         Parameters
         ----------
         bounds : [x0, y0, width, height]
-            Lower-left corner of inset axes, and its width and height.
+            Lower-left corner of inset axis, and its width and height.
 
         transform : `.Transform`
             Defaults to `ax.transAxes`, i.e. the units of *rect* are in
-            axes-relative coordinates.
+            axis-relative coordinates.
 
         zorder : number
             Defaults to 5 (same as `.Axes.legend`).  Adjust higher or lower
             to change whether it is above or below data plotted on the
-            parent axes.
+            parent axis.
 
         **kwargs
             Other keyword arguments are passed on to the child `.Axes`.
@@ -350,8 +350,8 @@ class Axes(_AxesBase):
 
         Examples
         --------
-        This example makes two inset axes, the first is in axes-relative
-        coordinates, and the second in data-coordinates::
+        This example makes two inset axes, the first is in axis-relative
+        coordinates, and the second in data coordinates::
 
             fig, ax = plt.subplots()
             ax.plot(range(10))
@@ -368,7 +368,7 @@ class Axes(_AxesBase):
         inset_locator = _InsetLocator(bounds, transform)
         bounds = inset_locator(self, None).bounds
         inset_ax = Axes(self.figure, bounds, zorder=zorder, **kwargs)
-        # this locator lets the axes move if in data coordinates.
+        # this locator lets the axis move if in data coordinates.
         # it gets called in `ax.apply_aspect() (of all places)
         inset_ax.set_axes_locator(inset_locator)
 
@@ -380,9 +380,9 @@ class Axes(_AxesBase):
                        facecolor='none', edgecolor='0.5', alpha=0.5,
                        zorder=4.99, **kwargs):
         """
-        Add an inset indicator to the axes.  This is a rectangle on the plot
+        Add an inset indicator to the axis.  This is a rectangle on the plot
         at the position indicated by *bounds* that optionally has lines that
-        connect the rectangle to an inset axes (`.Axes.inset_axes`).
+        connect the rectangle to an inset axis (`.Axes.inset_axes`).
 
         Warnings
         --------
@@ -395,13 +395,13 @@ class Axes(_AxesBase):
             and height.
 
         inset_ax : `.Axes`
-            An optional inset axes to draw connecting lines to.  Two lines are
-            drawn connecting the indicator box to the inset axes on corners
+            An optional inset axis to draw connecting lines to.  Two lines are
+            drawn connecting the indicator box to the inset axis on corners
             chosen so as to not overlap with the indicator box.
 
         transform : `.Transform`
             Transform for the rectangle coordinates. Defaults to
-            `ax.transAxes`, i.e. the units of *rect* are in axes-relative
+            `ax.transAxes`, i.e. the units of *rect* are in axis-relative
             coordinates.
 
         facecolor : color, default: 'none'
@@ -415,7 +415,7 @@ class Axes(_AxesBase):
 
         zorder : float, default: 4.99
             Drawing order of the rectangle and connector lines.  The default,
-            4.99, is just below the default level of inset axes.
+            4.99, is just below the default level of inset axis.
 
         **kwargs
             Other keyword arguments are passed on to the `.Rectangle` patch:
@@ -452,7 +452,7 @@ class Axes(_AxesBase):
         connects = []
 
         if inset_ax is not None:
-            # connect the inset_axes to the rectangle
+            # connect the inset axis to the rectangle
             for xy_inset_ax in [(0, 0), (0, 1), (1, 0), (1, 1)]:
                 # inset_ax positions are in axes coordinates
                 # The 0, 1 values define the four edges if the inset_ax
@@ -490,7 +490,7 @@ class Axes(_AxesBase):
 
     def indicate_inset_zoom(self, inset_ax, **kwargs):
         """
-        Add an inset indicator rectangle to the axes based on the axis
+        Add an inset indicator rectangle to the axis based on the axis
         limits for an *inset_ax* and draw connectors between *inset_ax*
         and the rectangle.
 
@@ -501,8 +501,8 @@ class Axes(_AxesBase):
         Parameters
         ----------
         inset_ax : `.Axes`
-            Inset axes to draw connecting lines to.  Two lines are
-            drawn connecting the indicator box to the inset axes on corners
+            Inset axis to draw connecting lines to.  Two lines are
+            drawn connecting the indicator box to the inset axis on corners
             chosen so as to not overlap with the indicator box.
 
         **kwargs
@@ -530,10 +530,10 @@ class Axes(_AxesBase):
     @docstring.dedent_interpd
     def secondary_xaxis(self, location, *, functions=None, **kwargs):
         """
-        Add a second x-axis to this axes.
+        Add a second x axis to this axis.
 
-        For example if we want to have a second scale for the data plotted on
-        the xaxis.
+        For example, if we want to have a second scale for the data plotted on
+        the x axis.
 
         %(_secax_docstring)s
 
@@ -566,16 +566,16 @@ class Axes(_AxesBase):
     @docstring.dedent_interpd
     def secondary_yaxis(self, location, *, functions=None, **kwargs):
         """
-        Add a second y-axis to this axes.
+        Add a second y axis to this axis.
 
-        For example if we want to have a second scale for the data plotted on
-        the yaxis.
+        For example, if we want to have a second scale for the data plotted on
+        the y axis.
 
         %(_secax_docstring)s
 
         Examples
         --------
-        Add a secondary axes that converts from radians to degrees
+        Add a secondary axis that converts from radians to degrees
 
         .. plot::
 
@@ -598,9 +598,9 @@ class Axes(_AxesBase):
     @docstring.dedent_interpd
     def text(self, x, y, s, fontdict=None, **kwargs):
         """
-        Add text to the axes.
+        Add text to the axis.
 
-        Add the text *s* to the axes at location *x*, *y* in data coordinates.
+        Add the text *s* to the axis at location *x*, *y* in data coordinates.
 
         Parameters
         ----------
@@ -635,10 +635,10 @@ class Axes(_AxesBase):
 
             >>> text(x, y, s, fontsize=12)
 
-        The default transform specifies that text is in data coords,
+        The default transform specifies that text is in data coords;
         alternatively, you can specify text in axis coords ((0, 0) is
         lower-left and (1, 1) is upper-right).  The example below places
-        text in the center of the axes::
+        text at the center of the axes::
 
             >>> text(0.5, 0.5, 'matplotlib', horizontalalignment='center',
             ...      verticalalignment='center', transform=ax.transAxes)
@@ -918,13 +918,13 @@ class Axes(_AxesBase):
         Parameters
         ----------
         ymin : float
-            Lower y-coordinate of the span, in data units.
+            Lower y coordinate of the span, in data units.
         ymax : float
-            Upper y-coordinate of the span, in data units.
+            Upper y coordinate of the span, in data units.
         xmin : float, default: 0
-            Lower x-coordinate of the span, in x-axis (0-1) units.
+            Lower x coordinate of the span, in x-axis (0-1) units.
         xmax : float, default: 1
-            Upper x-coordinate of the span, in x-axis (0-1) units.
+            Upper x coordinate of the span, in x-axis (0-1) units.
 
         Returns
         -------
@@ -963,21 +963,21 @@ class Axes(_AxesBase):
         Add a vertical span (rectangle) across the axes.
 
         The rectangle spans from *xmin* to *xmax* horizontally, and, by
-        default, the whole y-axis vertically.  The y-span can be set using
+        default, the whole y axis vertically.  The y span can be set using
         *ymin* (default: 0) and *ymax* (default: 1) which are in axis units;
-        e.g. ``ymin = 0.5`` always refers to the middle of the y-axis
+        e.g. ``ymin = 0.5`` always refers to the middle of the y axis
         regardless of the limits set by `~.Axes.set_ylim`.
 
         Parameters
         ----------
         xmin : float
-            Lower x-coordinate of the span, in data units.
+            Lower x coordinate of the span, in data units.
         xmax : float
-            Upper x-coordinate of the span, in data units.
+            Upper x coordinate of the span, in data units.
         ymin : float, default: 0
-            Lower y-coordinate of the span, in y-axis units (0-1).
+            Lower y coordinate of the span, in y-axis units (0-1).
         ymax : float, default: 1
-            Upper y-coordinate of the span, in y-axis units (0-1).
+            Upper y coordinate of the span, in y-axis units (0-1).
 
         Returns
         -------
@@ -1029,7 +1029,7 @@ class Axes(_AxesBase):
         Parameters
         ----------
         y : float or array-like
-            y-indexes where to plot the lines.
+            y indexes where to plot the lines.
 
         xmin, xmax : float or array-like
             Respective beginning and end of each line. If scalars are
@@ -1109,7 +1109,7 @@ class Axes(_AxesBase):
         Parameters
         ----------
         x : float or array-like
-            x-indexes where to plot the lines.
+            x indexes where to plot the lines.
 
         ymin, ymax : float or array-like
             Respective beginning and end of each line. If scalars are
@@ -1719,7 +1719,7 @@ class Axes(_AxesBase):
     @docstring.dedent_interpd
     def loglog(self, *args, **kwargs):
         """
-        Make a plot with log scaling on both the x and y axis.
+        Make a plot with log scaling on both the x and y axes.
 
         Call signatures::
 
@@ -1982,7 +1982,7 @@ class Axes(_AxesBase):
         c : array  (length ``2*maxlags+1``)
             The auto correlation vector.
         line : `.LineCollection` or `.Line2D`
-            `.Artist` added to the axes of the correlation:
+            `.Artist` added to the axis of the correlation:
 
             - `.LineCollection` if *usevlines* is True.
             - `.Line2D` if *usevlines* is False.
@@ -2548,17 +2548,17 @@ class Axes(_AxesBase):
         have the same vertical position and size defined by *yrange*.
 
         This is a convenience function for instantiating a
-        `.BrokenBarHCollection`, adding it to the axes and autoscaling the
+        `.BrokenBarHCollection`, adding it to the axis and autoscaling the
         view.
 
         Parameters
         ----------
         xranges : sequence of tuples (*xmin*, *xwidth*)
-            The x-positions and extends of the rectangles. For each tuple
+            The x positions and extents of the rectangles. For each tuple
             (*xmin*, *xwidth*) a rectangle is drawn from *xmin* to *xmin* +
             *xwidth*.
         yrange : (*ymin*, *yheight*)
-            The y-position and extend for all the rectangles.
+            The y position and extend for all the rectangles.
 
         Returns
         -------
@@ -2636,11 +2636,11 @@ class Axes(_AxesBase):
         ----------
         locs : array-like, default: (0, 1, ..., len(heads) - 1)
             For vertical stem plots, the x-positions of the stems.
-            For horizontal stem plots, the y-positions of the stems.
+            For horizontal stem plots, the y positions of the stems.
 
         heads : array-like
-            For vertical stem plots, the y-values of the stem heads.
-            For horizontal stem plots, the x-values of the stem heads.
+            For vertical stem plots, the y values of the stem heads.
+            For horizontal stem plots, the x values of the stem heads.
 
         linefmt : str, optional
             A string defining the properties of the vertical lines. Usually,
@@ -2913,7 +2913,7 @@ class Axes(_AxesBase):
             The coordinates of the center of the chart.
 
         frame : bool, default: False
-            Plot axes frame with the chart if true.
+            Plot axis frame with the chart if true.
 
         rotatelabels : bool, default: False
             Rotate each label to the angle of the corresponding slice if true.
@@ -3147,7 +3147,7 @@ class Axes(_AxesBase):
             the same length as *xerr* and *yerr*.  To use limits with inverted
             axes, `~.Axes.set_xlim` or `~.Axes.set_ylim` must be called before
             :meth:`errorbar`.  Note the tricky parameter names: setting e.g.
-            *lolims* to True means that the y-value is a *lower* limit of the
+            *lolims* to True means that the y value is a *lower* limit of the
             True value, so, only an *upward*-pointing arrow will be drawn!
 
         errorevery : int or (int, int), default: 1
@@ -4910,7 +4910,7 @@ default: :rc:`scatter.edgecolors`
             The x and y coordinates of the arrow base.
 
         dx, dy : float
-            The length of the arrow along x and y direction.
+            The length of the arrow along x and y directions.
 
         %(FancyArrow)s
 
@@ -5122,8 +5122,8 @@ default: :rc:`scatter.edgecolors`
 
         See Also
         --------
-        fill_between : Fill between two sets of y-values.
-        fill_betweenx : Fill between two sets of x-values.
+        fill_between : Fill between two sets of y values.
+        fill_betweenx : Fill between two sets of x values.
 
         Notes
         -----
@@ -5330,8 +5330,8 @@ default: :rc:`scatter.edgecolors`
             - 'equal': Ensures an aspect ratio of 1. Pixels will be square
               (unless pixel sizes are explicitly made non-square in data
               coordinates using *extent*).
-            - 'auto': The axes is kept fixed and the aspect is adjusted so
-              that the data fit in the axes. In general, this will result in
+            - 'auto': The axes are kept fixed and the aspect is adjusted so
+              that the data fit within the axes. In general, this will result in
               non-square pixels.
 
         interpolation : str, default: :rc:`image.interpolation`
@@ -5382,7 +5382,7 @@ default: :rc:`scatter.edgecolors`
             left corner of the axes. The convention (the default) 'upper' is
             typically used for matrices and images.
 
-            Note that the vertical axes points upward for 'lower'
+            Note that the vertical axis points upward for 'lower'
             but downward for 'upper'.
 
             See the :doc:`/tutorials/intermediate/imshow_extent` tutorial for
@@ -7564,8 +7564,8 @@ such objects
             `.Axes.set_aspect`. See there for further details.
 
             - 'equal': Ensures an aspect ratio of 1. Pixels will be square.
-            - 'auto': The axes is kept fixed and the aspect is adjusted so
-              that the data fit in the axes. In general, this will result in
+            - 'auto': The axes are kept fixed and the aspect is adjusted so
+              that the data fit within the axes. In general, this will result in
               non-square pixels.
             - *None*: Use :rc:`image.aspect`.
 
